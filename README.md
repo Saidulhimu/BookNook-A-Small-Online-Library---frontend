@@ -1,6 +1,6 @@
 # 📖 BookNook – A Small Online Library (Frontend)
 
-**BookNook** is a modern, responsive digital library platform designed around the simple, elegant philosophy: *“Add a book, borrow a book, return a book.”* Built using Next.js (App Router), Tailwind CSS, BetterAuth with MongoDB adapter, and Express backend API integration.
+**BookNook** is a modern, responsive digital library platform designed around the simple, elegant philosophy: *“Add a book, borrow a book, return a book.”* Built using Next.js (App Router), Tailwind CSS, and BetterAuth (MongoDB adapter), and an Express backend API for books and borrows.
 
 ## 🌐 Live Website URL
 - **Live Demo:** [https://booknook-online-library.vercel.app](https://booknook-online-library.vercel.app) *(or your deployed Vercel URL)*
@@ -11,7 +11,7 @@
 ## ✨ Key Features (Minimum 5 Highlights)
 1. **Interactive Swiper.js Hero Banner & Curated New Arrivals:**
    - Smooth 3+ slide banner showcasing library highlights with call-to-actions, accompanied by real-time MongoDB sorted New Arrivals featuring the latest 6 additions.
-2. **Robust BetterAuth & JWT Session Protection:**
+2. **BetterAuth & JWT Session Protection:**
    - Seamless authentication supporting Email/Password and Google OAuth with custom password validation (Uppercase, Lowercase, 6+ characters). Private route state persists flawlessly on reload without premature redirects.
 3. **Smart Borrowing System with Available Copies Challenge:**
    - Real-time `$inc: -1` atomic decrement when borrowing and `$inc: +1` increment when returning books. Automatically disables borrow actions when copies reach 0 with a prominent "Not Available" badge.
@@ -26,9 +26,9 @@
 
 ## 🛠️ Tech Stack
 - **Framework:** Next.js 14 (App Router)
-- **Styling & Icons:** Tailwind CSS, Lucide React
+- **Styling & Icons:** Tailwind CSS, DaisyUI, Lucide React
 - **Authentication:** BetterAuth (MongoDB Adapter) + JSON Web Token (JWT)
-- **Slider:** Swiper.js
+- **Slider & Animation:** Swiper.js, Framer Motion
 - **Notifications:** React Hot Toast
 - **Image Hosting:** ImgBB API
 
@@ -43,18 +43,21 @@ cd BookNook-A-Small-Online-Library---frontend
 ```
 
 ### 2. Configure Environment Variables
-Create a `.env.local` file based on `.env.example`:
+Create a `.env` file based on `.env.example`:
 ```env
-BETTER_AUTH_SECRET=your_better_auth_secret_32_characters_minimum
-BETTER_AUTH_URL=http://localhost:3000
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_API_URL=http://localhost:5001
+BETTER_AUTH_SECRET=your_random_secret          # openssl rand -hex 32
+BETTER_AUTH_URL=http://localhost:3000
 MONGODB_URI=your_mongodb_connection_string
 DB_NAME=booknook
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
+JWT_SECRET=same_value_as_backend_JWT_SECRET
+NEXT_PUBLIC_HAS_GOOGLE_AUTH=false              # set true after adding the Google keys
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 NEXT_PUBLIC_IMGBB_API_KEY=your_imgbb_api_key
 ```
+Google redirect URI to register in Google Cloud: `http://localhost:3000/api/auth/callback/google`.
 
 ### 3. Install Dependencies
 ```bash

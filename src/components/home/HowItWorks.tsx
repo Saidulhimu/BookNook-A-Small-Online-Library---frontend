@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { FadeIn } from "../shared/FadeIn";
 import { Search, BookCheck, RotateCcw, ArrowRight } from "lucide-react";
 
 const steps = [
@@ -42,9 +43,9 @@ export function HowItWorks() {
         {steps.map((item, index) => {
           const Icon = item.icon;
           return (
+            <FadeIn key={index} delay={index * 0.1} className="h-full">
             <div
-              key={index}
-              className="relative flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
+              className="relative h-full flex flex-col items-center text-center p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
             >
               <div className="absolute -top-3.5 px-3 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-xs tracking-wider shadow">
                 STEP {item.step}
@@ -62,6 +63,7 @@ export function HowItWorks() {
                 {item.description}
               </p>
             </div>
+            </FadeIn>
           );
         })}
       </div>

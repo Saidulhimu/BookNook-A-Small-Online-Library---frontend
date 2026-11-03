@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Book } from "../books/BookCard";
 import { fetchWithAuth } from "@/lib/api";
+import { uploadToImgBB } from "@/lib/imgbb";
 import toast from "react-hot-toast";
-import { X, Check, BookOpen, Layers } from "lucide-react";
+import { X, Check, BookOpen, Layers, Upload } from "lucide-react";
 
 const categories = ["Fiction", "Science", "History", "Kids", "Others"];
 
@@ -23,6 +24,23 @@ export function EditBookModal({ book, isOpen, onClose, onSuccess }: EditBookModa
   const [totalCopies, setTotalCopies] = useState(1);
   const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploading(true);
+    const toastId = toast.loading("Uploading cover image...");
+    try {
+      setImage(await uploadToImgBB(file));
+      toast.success("Image uploaded successfully!", { id: toastId });
+    } catch (err: any) {
+      toast.error(err.message || "Failed to upload image.", { id: toastId });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (book) {
@@ -157,13 +175,24 @@ export function EditBookModal({ book, isOpen, onClose, onSuccess }: EditBookModa
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Cover Image URL
               </label>
-              <input
-                type="url"
-                required
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:ring-2 focus:ring-emerald-500/50 focus:outline-none"
-              />
+              <div className="flex items-center gap-3">
+                {image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={image} alt="Cover preview" className="w-12 h-16 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
+                )}
+                <input
+                  type="url"
+                  required
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  className="flex-1 min-w-0 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:ring-2 focus:ring-emerald-500/50 focus:outline-none"
+                />
+                <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold whitespace-nowrap">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>{uploading ? "Uploading..." : "Upload"}</span>
+                  <input type="file" accept="image/*" onChange={handleFileChange} disabled={uploading} className="hidden" />
+                </label>
+              </div>
             </div>
           </div>
 

@@ -1,13 +1,16 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { API_BASE } from "@/lib/api";
 import { Star, Quote, Compass, Atom, Landmark, Smile, MoreHorizontal } from "lucide-react";
 
 const categories = [
-  { name: "Fiction", icon: Compass, count: "120+ Titles", color: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50" },
-  { name: "Science", icon: Atom, count: "85+ Titles", color: "text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/50" },
-  { name: "History", icon: Landmark, count: "64+ Titles", color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50" },
-  { name: "Kids", icon: Smile, count: "90+ Titles", color: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50" },
-  { name: "Others", icon: MoreHorizontal, count: "40+ Titles", color: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50" },
+  { name: "Fiction", icon: Compass, color: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50" },
+  { name: "Science", icon: Atom, color: "text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/50" },
+  { name: "History", icon: Landmark, color: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50" },
+  { name: "Kids", icon: Smile, color: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50" },
+  { name: "Others", icon: MoreHorizontal, color: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50" },
 ];
 
 const reviews = [
@@ -32,6 +35,29 @@ const reviews = [
 ];
 
 export function TopCategories() {
+  // Real number of books per category, counted from the database.
+  const [counts, setCounts] = useState<Record<string, number> | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/books`)
+      .then((res) => res.json())
+      .then((json) => {
+        const tally: Record<string, number> = {};
+        (json.data || []).forEach((b: { category: string }) => {
+          const key = (b.category || "Others").toLowerCase();
+          tally[key] = (tally[key] || 0) + 1;
+        });
+        setCounts(tally);
+      })
+      .catch(() => setCounts({}));
+  }, []);
+
+  const countLabel = (name: string) => {
+    if (!counts) return "\u00A0";
+    const n = counts[name.toLowerCase()] || 0;
+    return `${n} ${n === 1 ? "Title" : "Titles"}`;
+  };
+
   return (
     <section className="my-16 space-y-16">
       {/* Top Categories Block */}
@@ -61,7 +87,7 @@ export function TopCategories() {
                   {cat.name}
                 </h4>
                 <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  {cat.count}
+                  {countLabel(cat.name)}
                 </span>
               </Link>
             );

@@ -25,7 +25,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  // DaisyUI is used for components only; the app keeps its own emerald theme and dark mode.
+  daisyui: { themes: false, base: false, logs: false },
 };
 export default config;
 

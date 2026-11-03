@@ -12,7 +12,9 @@ import { Mail, Lock, ArrowRight, BookOpen, XCircle } from "lucide-react";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const rawCallback = searchParams.get("callbackUrl") || "/";
+  // Only allow in-app paths (blocks open redirects like //evil.com)
+  const callbackUrl = rawCallback.startsWith("/") && !rawCallback.startsWith("//") ? rawCallback : "/";
   const { syncJWT } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -45,14 +47,8 @@ function LoginForm() {
         return;
       }
 
-      // Sync JWT token with backend
-      if (res.data?.user) {
-        await syncJWT({
-          id: res.data.user.id,
-          name: res.data.user.name || "Library Member",
-          email: res.data.user.email,
-        });
-      }
+      // Exchange the new session for a JWT before navigating to a (possibly private) page
+      await syncJWT();
 
       toast.success("Welcome back to BookNook!");
       router.push(callbackUrl);
@@ -67,41 +63,20 @@ function LoginForm() {
   };
 
   const handleGoogleLogin = async () => {
-    if (!process.env.NEXT_PUBLIC_HAS_GOOGLE_AUTH || process.env.NEXT_PUBLIC_HAS_GOOGLE_AUTH === "false") {
-      // Demo mock Google login when actual OAuth keys aren't added yet
-      toast.loading("Signing in with Google Demo Account...", { id: "google-auth" });
-      try {
-        const mockUser = {
-          id: "google-user-" + Date.now(),
-          name: "Google Reader Member",
-          email: "googlereader@booknook.com",
-          image: "https://lh3.googleusercontent.com/a/default-user=s96-c",
-        };
-        await syncJWT(mockUser);
-        localStorage.setItem("booknook_demo_user", JSON.stringify(mockUser));
-        toast.success("Successfully authenticated with Google!", { id: "google-auth" });
-        router.push(callbackUrl);
-        router.refresh();
-        return;
-      } catch (err: any) {
-        toast.error("Google login failed", { id: "google-auth" });
-        return;
-      }
+    if (process.env.NEXT_PUBLIC_HAS_GOOGLE_AUTH !== "true") {
+      toast.error("Google login is not configured yet. Please use email and password.");
+      return;
     }
-
     try {
-      await signIn.social({
-        provider: "google",
-        callbackURL: callbackUrl,
-      });
+      await signIn.social({ provider: "google", callbackURL: callbackUrl });
     } catch (err: any) {
-      toast.error(err.message || "Google sign-in failed. Please add Google OAuth Client ID.");
+      toast.error(err.message || "Google sign-in failed. Please try again.");
     }
   };
 
   const handleForgotPassword = (e: React.MouseEvent) => {
     e.preventDefault();
-    toast("Password recovery is currently disabled for evaluation per requirements.", {
+    toast("Password recovery is not available in this version.", {
       icon: "ℹ️",
     });
   };

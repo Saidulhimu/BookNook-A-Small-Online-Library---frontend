@@ -1,5 +1,6 @@
 "use client";
 
+import { FadeIn } from "@/components/shared/FadeIn";
 import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { BookCard, Book } from "@/components/books/BookCard";
@@ -97,7 +98,9 @@ function BooksContent() {
       ) : books.length === 0 ? (
         <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8">
           <p className="text-slate-700 dark:text-slate-300 font-medium">
-            No books found matching your current filter.
+            {searchTerm || selectedCategory !== "All"
+              ? "No books found matching your current filter."
+              : "The library is empty right now. Be the first to add a book!"}
           </p>
           <button
             onClick={() => {
@@ -112,7 +115,9 @@ function BooksContent() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {books.map((book) => (
-            <BookCard key={book._id} book={book} />
+            <FadeIn key={book._id} className="h-full">
+              <BookCard book={book} />
+            </FadeIn>
           ))}
         </div>
       )}

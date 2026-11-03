@@ -116,10 +116,13 @@ export function Navbar() {
                     </div>
 
                     <div className="py-1">
-                      <div className="px-4 py-2 flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/30">
-                        <UserIcon className="w-3.5 h-3.5" />
-                        <span>My Profile (Logged In)</span>
-                      </div>
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                      >
+                        <UserIcon className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>My Profile</span>
+                      </Link>
                       <Link
                         href="/my-books"
                         className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"

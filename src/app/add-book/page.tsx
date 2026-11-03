@@ -33,6 +33,7 @@ export default function AddBookPage() {
 
   const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
 
     setUploadingImage(true);
@@ -228,6 +229,14 @@ export default function AddBookPage() {
               </label>
             </div>
           </div>
+
+          {imageURL && (
+            <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={imageURL} alt="Cover preview" className="w-16 h-24 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
+              <span className="text-xs text-slate-500 dark:text-slate-400">Cover preview</span>
+            </div>
+          )}
 
           {/* Short Description */}
           <div>
