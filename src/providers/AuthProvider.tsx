@@ -76,6 +76,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(activeUser);
       setIsSyncing(true);
       syncJWT(activeUser).finally(() => setIsSyncing(false));
+    } else if (typeof window !== "undefined" && localStorage.getItem("booknook_demo_user")) {
+      try {
+        const demoUser = JSON.parse(localStorage.getItem("booknook_demo_user") || "");
+        if (demoUser && demoUser.email) {
+          setUser(demoUser);
+        }
+      } catch (e) {}
     } else if (!sessionLoading) {
       setUser(null);
     }
@@ -85,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await fetch(`${API_BASE}/logout`, { method: "POST" }).catch(() => {});
       localStorage.removeItem("booknook_token");
+      localStorage.removeItem("booknook_demo_user");
       setToken(null);
       setUser(null);
       await (clientSignOut as any)();

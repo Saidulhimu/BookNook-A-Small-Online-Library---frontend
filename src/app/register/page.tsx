@@ -76,13 +76,43 @@ export default function RegisterPage() {
   };
 
   const handleGoogleLogin = async () => {
+    if (!process.env.NEXT_PUBLIC_HAS_GOOGLE_AUTH || process.env.NEXT_PUBLIC_HAS_GOOGLE_AUTH === "false") {
+      toast.loading("Signing in with Google Demo Account...", { id: "google-auth-reg" });
+      try {
+        const mockUser = {
+          id: "google-user-" + Date.now(),
+          name: "Google Reader Member",
+          email: "googlereader@booknook.com",
+          image: "https://lh3.googleusercontent.com/a/default-user=s96-c",
+        };
+        // Generate JWT
+        const res = await fetch("http://localhost:5000/jwt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mockUser),
+        });
+        const data = await res.json();
+        if (data.token) {
+          localStorage.setItem("booknook_token", data.token);
+        }
+        localStorage.setItem("booknook_demo_user", JSON.stringify(mockUser));
+        toast.success("Successfully authenticated with Google!", { id: "google-auth-reg" });
+        router.push("/");
+        router.refresh();
+        return;
+      } catch (err) {
+        toast.error("Google sign-in failed", { id: "google-auth-reg" });
+        return;
+      }
+    }
+
     try {
       await signIn.social({
         provider: "google",
         callbackURL: "/",
       });
     } catch (err: any) {
-      toast.error(err.message || "Google authentication failed");
+      toast.error(err.message || "Google authentication failed. Please add Google OAuth Client ID.");
     }
   };
 
