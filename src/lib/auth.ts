@@ -1,3 +1,8 @@
+import dns from "dns";
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {}
+
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
