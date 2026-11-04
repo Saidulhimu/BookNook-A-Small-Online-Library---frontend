@@ -62,31 +62,34 @@ export function TopCategories() {
     <section className="my-16 space-y-16">
       {/* Top Categories Block */}
       <div>
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-widest mb-3 border border-emerald-300/40 dark:border-emerald-700/50">
+            Curated Collections
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Top Categories
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2">
             Dive into our most popular literary genres curated for curious minds.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
           {categories.map((cat, i) => {
             const Icon = cat.icon;
             return (
               <Link
                 key={i}
                 href={`/books?category=${cat.name}`}
-                className="flex flex-col items-center p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 hover:shadow-lg transition-all group"
+                className="flex flex-col items-center p-6 bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 hover:border-emerald-500/60 dark:hover:border-emerald-500/60 hover:shadow-xl transition-all duration-300 group hover:-translate-y-1.5"
               >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform ${cat.color}`}>
-                  <Icon className="w-6 h-6" />
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-3.5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-sm ${cat.color}`}>
+                  <Icon className="w-7 h-7" />
                 </div>
-                <h4 className="font-semibold text-slate-900 dark:text-white text-base">
+                <h4 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                   {cat.name}
                 </h4>
-                <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
                   {countLabel(cat.name)}
                 </span>
               </Link>
@@ -96,12 +99,15 @@ export function TopCategories() {
       </div>
 
       {/* Reader Reviews Block */}
-      <div>
-        <div className="text-center max-w-2xl mx-auto mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+      <div className="pt-8">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-widest mb-3 border border-amber-300/40 dark:border-amber-700/50">
+            Community Love
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Reader Reviews
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-2">
             See what our community members love about reading and borrowing with BookNook.
           </p>
         </div>
@@ -110,12 +116,12 @@ export function TopCategories() {
           {reviews.map((r, i) => (
             <div
               key={i}
-              className="flex flex-col justify-between p-6 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm"
+              className="flex flex-col justify-between p-7 bg-white dark:bg-slate-800/90 rounded-3xl border border-slate-200/80 dark:border-slate-700/80 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative group"
             >
               <div>
-                <div className="flex items-center gap-1 mb-3">
+                <div className="flex items-center gap-1 mb-4">
                   {Array.from({ length: r.rating }).map((_, starIdx) => (
-                    <Star key={starIdx} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={starIdx} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-sm" />
                   ))}
                 </div>
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed italic">
@@ -123,12 +129,12 @@ export function TopCategories() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">
+              <div className="pt-5 mt-5 border-t border-slate-100 dark:border-slate-700/70 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white font-bold flex items-center justify-center text-sm shadow-md">
                   {r.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900 dark:text-white">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
                     {r.name}
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">

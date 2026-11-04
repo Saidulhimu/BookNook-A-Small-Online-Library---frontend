@@ -46,7 +46,7 @@ const slides = [
 
 export function BannerSlider() {
   return (
-    <section className="relative w-full rounded-3xl overflow-hidden shadow-2xl mb-12">
+    <section className="relative w-full rounded-3xl overflow-hidden shadow-2xl mb-16 border border-slate-200/60 dark:border-slate-800/80">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         spaceBetween={0}
@@ -55,7 +55,7 @@ export function BannerSlider() {
         pagination={{ clickable: true }}
         navigation={true}
         loop={true}
-        className="w-full h-[420px] sm:h-[480px] lg:h-[520px]"
+        className="w-full h-[460px] sm:h-[500px] lg:h-[540px]"
       >
         {slides.map((slide, idx) => {
           const Icon = slide.icon;
@@ -65,31 +65,38 @@ export function BannerSlider() {
                 className="relative w-full h-full bg-cover bg-center flex items-center"
                 style={{ backgroundImage: `url(${slide.image})` }}
               >
-                {/* Overlay gradient */}
+                {/* Overlay gradient with atmospheric depth */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`} />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-black/60 pointer-events-none" />
 
                 {/* Slide content */}
-                <div className="relative z-10 max-w-2xl px-8 sm:px-14 lg:px-20 text-white space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold backdrop-blur-sm">
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{slide.badge}</span>
+                <div className="relative z-10 max-w-2xl px-8 sm:px-14 lg:px-20 text-white space-y-5">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold backdrop-blur-md shadow-sm">
+                    <Icon className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
+                    <span className="tracking-wide uppercase text-[11px]">{slide.badge}</span>
                   </div>
 
-                  <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-white drop-shadow-md">
                     {slide.title}
                   </h1>
 
-                  <p className="text-slate-200 text-sm sm:text-base leading-relaxed line-clamp-3">
+                  <p className="text-slate-200/90 text-sm sm:text-base leading-relaxed line-clamp-3 max-w-xl font-normal">
                     {slide.description}
                   </p>
 
-                  <div className="pt-2">
+                  <div className="pt-2 flex flex-wrap items-center gap-4">
                     <Link
                       href="/books"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-lg shadow-emerald-900/40 hover:shadow-emerald-600/50 transition-all hover:scale-105 active:scale-95"
+                      className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold shadow-lg shadow-emerald-950/40 hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-105 active:scale-95 group"
                     >
                       <span>{slide.cta}</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href="/#how-it-works"
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-105"
+                    >
+                      How It Works
                     </Link>
                   </div>
                 </div>
