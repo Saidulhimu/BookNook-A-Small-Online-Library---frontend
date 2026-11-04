@@ -51,25 +51,25 @@ export function HowItWorks() {
           const Icon = item.icon;
           return (
             <FadeIn key={index} delay={index * 0.1} className="h-full">
-            <div
-              className="relative h-full flex flex-col items-center text-center p-8 bg-white dark:bg-slate-800/90 rounded-3xl border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
-            >
-              <div className="absolute -top-4 px-3.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs tracking-widest shadow-md">
-                STEP {item.step}
+              <div
+                className="relative h-full flex flex-col items-center text-center p-8 bg-white dark:bg-slate-800/90 rounded-3xl border border-slate-200/90 dark:border-slate-700/80 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+              >
+                <div className="absolute -top-4 px-3.5 py-1 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs tracking-widest shadow-md">
+                  STEP {item.step}
+                </div>
+
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/70 dark:to-teal-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center my-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm border border-emerald-200/60 dark:border-emerald-800/40">
+                  <Icon className="w-8 h-8" />
+                </div>
+
+                <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2.5">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                  {item.description}
+                </p>
               </div>
-
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/70 dark:to-teal-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center my-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-sm border border-emerald-200/60 dark:border-emerald-800/40">
-                <Icon className="w-8 h-8" />
-              </div>
-
-              <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2.5">
-                {item.title}
-              </h3>
-
-              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                {item.description}
-              </p>
-            </div>
             </FadeIn>
           );
         })}

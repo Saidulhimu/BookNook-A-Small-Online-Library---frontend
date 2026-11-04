@@ -43,11 +43,10 @@ export function BookCard({ book }: { book: Book }) {
         {/* Available Copies Badge */}
         <div className="absolute top-3 right-3 z-10">
           <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-md backdrop-blur-md border ${
-              isAvailable
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-md backdrop-blur-md border ${isAvailable
                 ? "bg-emerald-600/90 hover:bg-emerald-600 text-white border-emerald-400/40"
                 : "bg-rose-600/90 text-white border-rose-400/40"
-            }`}
+              }`}
           >
             <Layers className="w-3 h-3" />
             {isAvailable ? `${book.totalCopies} Copies` : "Not Available"}
